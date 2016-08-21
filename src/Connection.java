@@ -35,7 +35,7 @@ public class Connection {
 	}
 	
 	public void channelMessage(String message, String channel) throws IOException {
-		message("PRIVMSG " + channel + ": " + message + "\r\n");
+		message("PRIVMSG " + channel + " :" + message + "\r\n");
 	}
 	
 	public String getMessage(String channel) throws IOException {
