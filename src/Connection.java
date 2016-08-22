@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.*;
 
 public class Connection {
 	String server;
@@ -10,8 +11,10 @@ public class Connection {
 	Socket socket;
 	BufferedWriter writer;
 	BufferedReader reader;
+	ArrayList channelList;
 	
 	public Connection(String server, int Port, String nick) throws IOException {
+		channelList = new ArrayList<ArrayList<String>>();
 		socket = new Socket(server, 6667);
 		writer = new BufferedWriter(
 			new OutputStreamWriter(socket.getOutputStream())
@@ -22,7 +25,7 @@ public class Connection {
 		);
 		
 		message("NICK " + nick + "\r\n");
-		message("USER " + login + " 8 * : Java IRC Hacks Bot\r\n");
+		message("USER " + login + " * 8 :Testing!\r\n");
 	}
 	
 	public void join(String channel) throws IOException {
@@ -31,6 +34,7 @@ public class Connection {
 	
 	public void message(String message) throws IOException {
 		writer.write(message);
+		//System.out.println(message);
 		writer.flush();
 	}
 	
@@ -41,36 +45,4 @@ public class Connection {
 	public String getMessage(String channel) throws IOException {
 		return reader.readLine();
 	}
-	
-	/*public static void main(String[] args) throws Exception {
-		// The server to connect to and our details.
-        Scanner in = new Scanner(System.in);
-        String input = null;
-
-		String server = "irc.freenode.net";
-		String nick = "simple_bot";
-		String login = "simple_bot";
-
-		// The channel which the bot will join.
-
-		String channel = "#irchacks";
-		
-		// Log on to the server.
-		
-
-		// Read lines from the server until it tells us we have connected.
-
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			if (line.indexOf("004") >= 0) {
-				// We are now logged in.
-				break;
-			} else if (line.indexOf("433") >= 0) {
-				System.out.println("Nickname is already in use.");
-				return;
-			}
-	}
-
-		// Keep reading lines from the server.
-	}*/
 }
