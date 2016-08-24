@@ -9,3 +9,12 @@ Nippy is currently in early experimental alpha stages where there is very basic 
 
 # Contact
 To contact the me, you can email me at loganstucki@gmail.com or you can connect to #nippy on freenode irc.
+
+# TODO:
+<ul>
+  <li>More commands!</li>
+  <li>GUI with tabs for diffrent channels</li>
+  <li>Colored text</li>
+  <li>Ability to join more than one server at a time?</li>
+</ul>
+<strong>Please message me if you have more ideas for the project!!</strong>
