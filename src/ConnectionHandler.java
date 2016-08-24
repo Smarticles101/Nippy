@@ -11,6 +11,7 @@ public class ConnectionHandler {
 	String server;
 	String nick;
 	String login;
+<<<<<<< HEAD
 	Socket socket;
 	BufferedWriter writer;
 	BufferedReader reader;
@@ -32,6 +33,30 @@ public class ConnectionHandler {
 	public void message(String message) throws IOException {
 		writer.write(message);
 		System.out.println(message);
+=======
+	String currentChannel;
+	Socket socket;
+	BufferedWriter writer;
+	BufferedReader reader;
+	
+	public ConnectionHandler(String server, int Port, String nick) throws IOException {
+		socket = new Socket(server, Port);
+		writer = new BufferedWriter(
+			new OutputStreamWriter(socket.getOutputStream())
+		);
+
+		reader = new BufferedReader(
+			new InputStreamReader(socket.getInputStream( ))
+		);
+		
+		message("NICK " + nick + "\r\n");
+		message("USER " + login + " * 8 :Testing!\r\n");
+	}
+	
+	public void message(String message) throws IOException {
+		writer.write(message);
+		//System.out.println(message);
+>>>>>>> branch 'master' of https://github.com/Smarticles101/Nippy.git
 		writer.flush();
 	}
 	
