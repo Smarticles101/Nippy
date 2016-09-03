@@ -28,7 +28,23 @@ public class OutputHandler extends ConnectionHandler {
 		if(line.contains(" JOIN ") && line.indexOf(":")<line.indexOf("!")) {
 			String channel = line.substring(line.indexOf("JOIN")+5);
 			setCurrentChannel(channel);
-			System.out.println(currentChannel);
+			channelList.add(channel);
+			userList.add(new ArrayList<String>());
+		}
+		
+		
+		
+		if(line.contains(super.nick + " = " + currentChannel + " :")) {
+			final String usrList = line.substring(line.indexOf(super.nick)+super.nick.length()+3+currentChannel.length() + 2);
+			
+			new Thread() {
+				public void run() {
+			
+				for(String s : usrList.split(" ")) {
+					addUser(channelList.indexOf(currentChannel), s);
+				}
+			}
+			}.start();
 		}
 		
 		if(currentChannel == null || currentChannel == "") {

@@ -8,7 +8,7 @@ public class InputHandler extends OutputHandler {
 	public void handleInput(String input) {										// TODO:
 		try {																	//		more commands!
 			if(input.startsWith("/")) {											//		add /channel list
-				if(input.startsWith("/msg")) {									//		add /channel switch
+				if(input.startsWith("/msg")) {
 					handleMsg(input);											//		work on array lists of channels and people in channels
 				}
 

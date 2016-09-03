@@ -9,14 +9,19 @@ import java.util.ArrayList;
 
 public class ConnectionHandler {
 	String server;
+	int port;
 	String nick;
 	String login;
 	Socket socket;
 	BufferedWriter writer;
 	BufferedReader reader;
 
-	public ConnectionHandler(String server, int Port, String nick) throws IOException {
-		socket = new Socket(server, Port);
+	public ConnectionHandler(String serv, int prt, String nck) throws IOException {
+		server = serv;
+		nick = nck;
+		port = prt;
+		
+		socket = new Socket(server, prt);
 		writer = new BufferedWriter(
 			new OutputStreamWriter(socket.getOutputStream())
 		);

@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Nippy {
 	public static void main(String args[]) {
 		try {
-			final InputHandler irc = new InputHandler("chat.freenode.net", 6667, "nippy-client");
+			final InputHandler irc = new InputHandler("irc.freenode.net", 6667, "nippy-client");
 
 			new Thread(){
 				public void run() {
