@@ -1,12 +1,13 @@
 import java.io.*;
 import java.util.Scanner;
+import java.util.Optional;
 
 public class Nippy {
 	public static void main(String args[]) {
 		try {
 			final InputHandler irc = new InputHandler("irc.freenode.net", 6667, "nippy-client");
 
-			new Thread(){
+			new Thread() {
 				public void run() {
 					Scanner in = new Scanner(System.in);
 					String input = null;
@@ -20,7 +21,10 @@ public class Nippy {
 			String line = null;
 
 			while ((line = irc.getMessage()) != null) {
-				System.out.println(line);
+				if(line != "") {
+					System.out.println(line);
+
+				}
 			}
 		} catch(IOException e) {
 			e.printStackTrace();

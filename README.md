@@ -10,6 +10,9 @@ Nippy is currently in early experimental alpha stages where there is very basic 
 # Contact
 To contact the me, you can email me at loganstucki@gmail.com or you can connect to #nippy on freenode irc.
 
+# Contribute
+If you would like to contribute (please do), fork the repo, add stuff (things that need to be added are below in the TODO list), and perform a pull request.  I will try to accept all the pull requests that I can.
+
 # TODO:
 <ul>
   <li>More commands!</li>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class OutputHandler extends ConnectionHandler {
 	List<String> channelList;
 	List<List<String>> userList;
+	List<List<String>> msgList;
 	int currentUserIndex;
 	String currentChannel;
 	
@@ -13,12 +14,13 @@ public class OutputHandler extends ConnectionHandler {
 		super(server, port, nick);
 		channelList = new ArrayList<String>();
 		userList = new ArrayList<List<String>>();
+		msgList = new ArrayList<List<String>>();
 		currentUserIndex = 0;
 		currentChannel = null;
 	}
 
 	public String getMessage() throws IOException {
-		String line = reader.readLine();
+		String line = super.getMessage();
 		System.out.println(line);
 
 		if(line.startsWith("PING ")) {
@@ -30,9 +32,8 @@ public class OutputHandler extends ConnectionHandler {
 			setCurrentChannel(channel);
 			channelList.add(channel);
 			userList.add(new ArrayList<String>());
+			msgList.add(new ArrayList<String>());
 		}
-		
-		
 		
 		if(line.contains(super.nick + " = " + currentChannel + " :")) {
 			final String usrList = line.substring(line.indexOf(super.nick)+super.nick.length()+3+currentChannel.length() + 2);
@@ -40,10 +41,10 @@ public class OutputHandler extends ConnectionHandler {
 			new Thread() {
 				public void run() {
 			
-				for(String s : usrList.split(" ")) {
-					addUser(channelList.indexOf(currentChannel), s);
+					for(String s : usrList.split(" ")) {
+						addUser(channelList.indexOf(currentChannel), s);
+					}
 				}
-			}
 			}.start();
 		}
 		
@@ -54,27 +55,28 @@ public class OutputHandler extends ConnectionHandler {
 				int nickEnd = line.indexOf('!');
 				//System.out.println("nickend " + nickEnd);
 				if(nickEnd < secondColon) {
-					nickEnd = line.indexOf('!');
-					String message = line.substring(secondColon);
-					return line.substring(1, nickEnd) + " " + message;
+					if(line.contains("PRIVMSG ")) {
+						if(line.contains("PRIVMSG " + currentChannel + " :")) {
+							msgList.get(channelList.indexOf(currentChannel)).add(line);
+							return line.substring(1,nickEnd) + " " + line.substring(secondColon);
+						} else {
+							String channel = line.substring(line.indexOf("PRIVMSG ") + 8, line.indexOf(" ", line.indexOf("PRIVMSG " + 8)));
+							msgList.get(channelList.indexOf(channel)).add(line);
+						}
+						
+					} else {
+						nickEnd = line.indexOf('!');
+						String message = line.substring(secondColon);
+						return line.substring(1, nickEnd) + " " + message;
+					}
 				}
 			} else if(secondColon != -1) {
 				String message = line.substring(secondColon);
-				return message;
-			} else {
-				return "";
-			}
-		} else{
-			if(line.contains("PRIVMSG " + currentChannel + " :")) {
-				return line;
-			} else {
-				return "";
+				return  message;
 			}
 		}
-		
 		return "";
 	}
-	
 	public void addUser(int channelIndex, String userName) {
 		userList.get(channelIndex).add(userName);
 	}

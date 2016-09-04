@@ -12,11 +12,11 @@ public class InputHandler extends OutputHandler {
 					handleMsg(input);											//		work on array lists of channels and people in channels
 				}
 
-				if(input.startsWith("/channel ")) {
+				if(input.startsWith("/channel")) {
 					handleChannel(input);
 				}
 				
-				if(input.startsWith("/nick ")) {
+				if(input.startsWith("/nick")) {
 					handleNick(input);
 				}
 			} else {
@@ -36,17 +36,19 @@ public class InputHandler extends OutputHandler {
 	}
 	
 	public void handleChannel(String input) throws IOException {
-		if(input.startsWith("/channel list ")) {
-			
-		} else if(input.startsWith("/channel switch ")) {
+		if(input.startsWith("/channel list")) {
+			for(String chan : channelList) {
+				System.out.println(chan);
+			}
+		} else if(input.startsWith("/channel switch")) {
 			super.setCurrentChannel(input.substring(16));
-		} else if(input.startsWith("/channel join ")) {
+		} else if(input.startsWith("/channel join")) {
 			join(input.substring(14));
 		} else {
-			System.out.println("Usage:\n" + 
-							   "/channel list" + 
-							   "/channel switch <channel>" +
-							   "/channel join <channel>");
+			System.out.print("Usage:\n" + 
+							   "\t/channel list\n" + 
+							   "\t/channel switch <channel>\n" +
+							   "\t/channel join <channel>\n");
 		}
 	}
 	
