@@ -10,8 +10,8 @@ public class OutputHandler extends ConnectionHandler {
 	int currentUserIndex;
 	String currentChannel;
 	
-	public OutputHandler(String server, int port, String nick) throws IOException {
-		super(server, port, nick);
+	public OutputHandler(String server, int port, String nickname, String identity, String realName, boolean invisible) throws IOException {
+		super(server, port, nickname, identity, realName, invisible);
 		channelList = new ArrayList<String>();
 		userList = new ArrayList<List<String>>();
 		msgList = new ArrayList<List<String>>();
@@ -25,6 +25,7 @@ public class OutputHandler extends ConnectionHandler {
 
 		if(line.startsWith("PING ")) {
 			message("PING " + line.substring(5));
+			return "";
 		}
 		
 		if(line.contains(" JOIN ") && line.indexOf(":")<line.indexOf("!")) {
@@ -33,6 +34,7 @@ public class OutputHandler extends ConnectionHandler {
 			channelList.add(channel);
 			userList.add(new ArrayList<String>());
 			msgList.add(new ArrayList<String>());
+			return "";
 		}
 		
 		if(line.contains(super.nick + " = " + currentChannel + " :")) {
@@ -46,6 +48,8 @@ public class OutputHandler extends ConnectionHandler {
 					}
 				}
 			}.start();
+			
+			return "";
 		}
 		
 		if(currentChannel == null || currentChannel == "") {
@@ -63,7 +67,6 @@ public class OutputHandler extends ConnectionHandler {
 							String channel = line.substring(line.indexOf("PRIVMSG ") + 8, line.indexOf(" ", line.indexOf("PRIVMSG " + 8)));
 							msgList.get(channelList.indexOf(channel)).add(line);
 						}
-						
 					} else {
 						nickEnd = line.indexOf('!');
 						String message = line.substring(secondColon);
@@ -77,6 +80,7 @@ public class OutputHandler extends ConnectionHandler {
 		}
 		return "";
 	}
+	
 	public void addUser(int channelIndex, String userName) {
 		userList.get(channelIndex).add(userName);
 	}

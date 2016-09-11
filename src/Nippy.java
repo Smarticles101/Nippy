@@ -5,7 +5,7 @@ import java.util.Optional;
 public class Nippy {
 	public static void main(String args[]) {
 		try {
-			final InputHandler irc = new InputHandler("irc.freenode.net", 6667, "nippy-client");
+			final InputHandler irc = new InputHandler("irc.freenode.net", 6667, "nippy-client", "Logan", "Logan", true);
 
 			new Thread() {
 				public void run() {
@@ -13,7 +13,11 @@ public class Nippy {
 					String input = null;
 
 					while((input = in.nextLine()) != null) {
-						irc.handleInput(input);
+						try {
+							irc.handleInput(input);
+						} catch(IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}.start();

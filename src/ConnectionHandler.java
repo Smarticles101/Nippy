@@ -12,15 +12,25 @@ public class ConnectionHandler {
 	String server;
 	int port;
 	String nick;
-	String login;
+	String ident;
+	String real;
+	int visibility;
 	Socket socket;
 	BufferedWriter writer;
 	BufferedReader reader;
 
-	public ConnectionHandler(String serv, int prt, String nck) throws IOException {
+	public ConnectionHandler(String serv, int prt, String nickname, String identity, String realName, boolean invisible) throws IOException {
 		server = serv;
-		nick = nck;
+		nick = nickname;
 		port = prt;
+		ident = identity;
+		real = realName;
+		
+		if(invisible) {
+			visibility = 8;
+		} else {
+			visibility = 0;
+		}
 		
 		socket = new Socket(server, prt);
 		writer = new BufferedWriter(
@@ -32,7 +42,7 @@ public class ConnectionHandler {
 		);
 
 		message("NICK " + nick + "\r\n");
-		message("USER " + login + " * 8 :Testing!\r\n");
+		message("USER " + ident + " * " + visibility + " :" + real + "\r\n");
 	}
 
 	public void message(String message) throws IOException {
